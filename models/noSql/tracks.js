@@ -47,6 +47,7 @@ const TracksScheme = new mongoose.Schema(
   }
 );
 
+
 //implementando relacion con storage 
 TracksScheme.statics.findAllData = function () {
   const joinData = this.aggregate([

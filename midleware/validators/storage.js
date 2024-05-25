@@ -21,7 +21,7 @@ check('filename')
             return false; // return "falsy" value to indicate invalid data
         }
     })
-.withMessage('Please only submit pdf documents.'), // custom error message that will be send back if the file in not a pdf. 
+.withMessage('Please only submit img documents.'), // custom error message that will be send back if the file in not a pdf. 
 
 
 // process the request with validated user inputs

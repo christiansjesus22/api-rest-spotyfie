@@ -22,7 +22,7 @@ const checkRol = (roles) =>  async (req, res, next) => {
         next ()
 
     } catch (error) {
-        handleHttpError(res, "ERROR_ROL_PERMISSIONS",403)
+        handleHttpError(res,error,403)
         console.log (error)
         return
     }

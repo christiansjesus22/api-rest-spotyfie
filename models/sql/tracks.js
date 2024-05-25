@@ -1,7 +1,7 @@
 //importando instanciamiento de sequelize 
 const { sequelize } = require("../../config/mySql.js")
 //importamos el tipo de dato que va a contener cada elemento la tabla users
-const { DataTypes } = require("sequelize")
+const { DataTypes,Op } = require("sequelize")
 //importando modelo storage
 const Storage =  require ("./storage.js")
 //importando modelo songStorage
@@ -15,9 +15,6 @@ const tracks = sequelize.define(
       allowNull: false,
     },
     album: {
-      type: DataTypes.STRING,
-    },
-    url: {
       type: DataTypes.STRING,
     },
     artist_name: {
@@ -48,42 +45,32 @@ const tracks = sequelize.define(
   }
 )
 
+//creamos la relacion con las tablas
+tracks.belongsTo(songStorage, {foreignKey: "songId",})
+tracks.belongsTo(Storage, {foreignKey: "mediaId",});
 
 
-//implementando asociacion con songStorage (canciones)
-//implementando metodo de obtener todos los elementos
-tracks.findAllData = function () {
+//implementando metodo personalizado de obtener todos los elementos 
+tracks.findAllData = function () {  
+  //implementando relacion
   tracks.belongsTo(songStorage, {
     foreignKey: "songId",
-  });
-  return tracks.findAll({ include:songStorage });
-};
-
-//implementando metodo de obtener objeto por id
-tracks.findOneData = function (id) {
-  tracks.belongsTo(songStorage, {
-    foreignKey: "songId",
-  });
-  return tracks.findOne({ where: { id }, include:songStorage});
-};
-
-
-
-//implementando asociacion con storage (imagenes)
-//implementando metodo de obtener todos los elementos
-tracks.findAllData = function () {
-  tracks.belongsTo(Storage, {
+  });tracks.belongsTo(Storage, {
     foreignKey: "mediaId",
   });
-  return tracks.findAll({ include:Storage });
+  return tracks.findAll({ include:[Storage,songStorage] });
 };
 
-//implementando metodo de obtener objeto por id
+//implementando metodo personalizado de obtener objeto por id
 tracks.findOneData = function (id) {
   tracks.belongsTo(Storage, {
     foreignKey: "mediaId",
   });
-  return tracks.findOne({ where: { id }, include:Storage});
+  tracks.belongsTo(songStorage, {
+    foreignKey: "songId",
+  })
+
+ return tracks.findOne({ where: { id }, include:[Storage,songStorage]});
 };
 
 

@@ -20,7 +20,7 @@ const {loggerStream} = require ("./utils/handleLogger")
 //importando selector de base de datos 
 const ENGINE_DB = process.env.ENGINE_DB
 
-
+//haacemos uso de express para el levantamiendo del servidor 
 const app =  express()
 //decimos que app haga uso de cors
 app.use(cors())
@@ -28,8 +28,7 @@ app.use(cors())
 app.use(express.json())
 // llamamos a express para visulizar los archivos estaticos
 app.use (express.static("storage"))
-
-
+app.use (express.static("songStorage"))
 
 
 // haciendo uso del morgan-body para monitorear los errores

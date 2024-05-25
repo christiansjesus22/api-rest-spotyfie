@@ -38,10 +38,9 @@ else {
 
   //validadores para sql
   validatorCreateItem = [
-    //mensajes de error test
+  //mensajes de error test
 check("name").exists().notEmpty().withMessage('debe adicionar un nombre'),
 check("album").exists().notEmpty().withMessage('debe adicionar un album'),
-check("url").exists().notEmpty().withMessage('debe adicionar un cover'),
 check("artist_name").exists().notEmpty().withMessage('debe adicionar un artista'),
 check("artist_nickname").exists().notEmpty().withMessage('debe adicionar un sobre nombre del artista'),
 check("artist_nationality").exists().notEmpty().withMessage('debe adicionar una nacionalidad para el artista'),
@@ -67,4 +66,12 @@ const validatorGetItem = [
   
 ]
 
-module.exports = {validatorCreateItem,validatorGetItem}
+const validatorSearch = [
+  check("name").exists().notEmpty(),
+  (req,res,next) => {
+    return validationResults (req,res,next)
+  }
+  
+]
+
+module.exports = {validatorCreateItem,validatorGetItem,validatorSearch}

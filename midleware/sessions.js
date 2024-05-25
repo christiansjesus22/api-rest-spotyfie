@@ -22,6 +22,7 @@ const sessionsMidleware = async (req, res, next) => {
         const token = req.headers.authorization.split(' ').pop();  //bearer TOKEN-12345
         //verificamos que el token cumple con la estructura
         const dataToken = await verifyToken(token);
+        console.log ("token llegando al back",token)
 
         //verificamos que en el token exista la propiedad id. que viene desde que viene desde el tokenSign 
         if (!dataToken[PropiertiesKey.id]) {
@@ -33,7 +34,6 @@ const sessionsMidleware = async (req, res, next) => {
         const query = {
         [PropiertiesKey.id]: dataToken[PropiertiesKey.id]
         }
-        
         //obteniendo el usuario al que pertenece el token de la solicitacion
         const user = await  userModel.findOne(query)
         // inyectamos en la peticion la propiedad del usuario
@@ -43,8 +43,7 @@ const sessionsMidleware = async (req, res, next) => {
    
     } catch (error) {
         handleHttpError(res, "ERROR_SESSION",401);
-        console.log ('el id', PropiertiesKey.id)
-        console.log (error)
+
    }
 }
 

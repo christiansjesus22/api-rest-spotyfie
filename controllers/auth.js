@@ -15,8 +15,10 @@ const loginUser = async (req, res) => {
         //pasando la data limpia unicamente con los datos admitidos en el modelo
         req = matchedData(req)
         //buscamos al email del usuario en la base de datos        // aplicamos un filtro para que el password retorne un true temporalmente en el select y pueda ser comprarada
-        const user = await userModel.findOne({ email: req.email }) //.select('password name role email') //habilitar dependiendo si se va a utilizar mongo como base de datos 
+        const user = await userModel.findOne({ where:{ email: req.email }}) //.select('password name role email') //habilitar dependiendo si se va a utilizar mongo como base de datos 
        
+      
+
         //verificamos que exista o no el usuario en la base de datos
         if (!user) {
             handleHttpError(res,"USUARIO NO EXISTE", 404)
@@ -30,7 +32,7 @@ const loginUser = async (req, res) => {
 
         //verificamos la compracion entre las contrasenhas
         if (!check) {
-            handleHttpError(res,"PASSWORD INVALIDA", 401) 
+            handleHttpError(res,"CONTRASENHA INVALIDA", 401) 
             return
         }
         //una vez hecha la comparacion podemos setear la contrasenha para que no sea visible en la respuesta 
